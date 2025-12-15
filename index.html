@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DishBot - The Dishwashing Robot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            margin: 0;
+        }
+        section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        #connectionStatus {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        #codePreview, #imagePreview {
+            margin-top: 10px;
+            max-width: 100%;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DishBot: The Ultimate Dishwashing Robot</h1>
+        <p>Created by [Your Brother's Name] for the Invention Fair</p>
+    </header>
+
+    <section id="about">
+        <h2>About DishBot</h2>
+        <p>This robot automates dishwashing! Connect from your phone, upload custom code to control it, and add pictures of your dishwasher for precise operation.</p>
+    </section>
+
+    <section id="connect">
+        <h2>Connect to Robot</h2>
+        <p>Use your phone to connect (simulated for demo).</p>
+        <button id="connectButton">Connect Now</button>
+        <p id="connectionStatus">Status: Disconnected</p>
+    </section>
+
+    <section id="uploadCode">
+        <h2>Upload Code</h2>
+        <p>Upload your robot control code (e.g., .ino or .py file).</p>
+        <input type="file" id="codeFile" accept=".ino,.py,.txt">
+        <div id="codePreview"></div>
+    </section>
+
+    <section id="uploadImages">
+        <h2>Upload Dishwasher Pictures</h2>
+        <p>Upload photos for precision mapping (multiple allowed).</p>
+        <input type="file" id="imageFiles" accept="image/*" multiple>
+        <div id="imagePreview"></div>
+    </section>
+
+    <script>
+        // Simulate connection
+        const connectButton = document.getElementById('connectButton');
+        const connectionStatus = document.getElementById('connectionStatus');
+        connectButton.addEventListener('click', () => {
+            connectionStatus.textContent = 'Status: Connected!';
+            connectionStatus.style.color = '#4CAF50';
+        });
+
+        // Preview uploaded code file
+        const codeFile = document.getElementById('codeFile');
+        const codePreview = document.getElementById('codePreview');
+        codeFile.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    codePreview.innerHTML = `<p>Uploaded: ${file.name}</p><pre>${e.target.result.substring(0, 500)}...</pre>`;
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Preview uploaded images
+        const imageFiles = document.getElementById('imageFiles');
+        const imagePreview = document.getElementById('imagePreview');
+        imageFiles.addEventListener('change', (event) => {
+            imagePreview.innerHTML = '';
+            const files = event.target.files;
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+                    imagePreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
